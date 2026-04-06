@@ -16,25 +16,35 @@ const app = express();
 app.use(express.json());
 const config = {
 	apiversion: "1",
-	author: "", // TODO: Your Battlesnake Username
-	color: "#8d44c2", // TODO: Choose color
-	head: "default", // TODO: Choose head, see https://play.battlesnake.com/customizations/ for options unlocked in your account
-	tail: "default", // TODO: Choose tail, see https://play.battlesnake.com/customizations/ for options unlocked in your account
+	author: "tylovesjesus", // TODO: Your Battlesnake Username
+	color: "#ff8000", // TODO: Choose color
+	head: "silly", // TODO: Choose head, see https://play.battlesnake.com/customizations/ for options unlocked in your account
+	tail: "nr-booster", // TODO: Choose tail, see https://play.battlesnake.com/customizations/ for options unlocked in your account
 };
 
 //TODO: respond to GET requests on "/" with the config object above
-
+app.get("/",(req,res) => {
+	res.json(config);
+});
 //TODO: respond to POST requests on "/start". Your response itself is ignored, but must have status code "200"
 //      the request body will contain objects representing the game instance, game board state, and your snake
 //      https://docs.battlesnake.com/api/requests/start
+app.post("/start",(req,res) => {
+
+});
 
 //TODO: respond to POST requests on "/move". Your response should be an object with a "move" property and optionally
 //      a "shout" property. The request body again contains objects representing the game state
 //      https://docs.battlesnake.com/api/requests/move
-
+app.post("/move",(req,res) => {
+	res.json(move)
+});
 //TODO: respond to POST requests on "/end", which signals the end of a game. Your response itself is ignored,
 //      but must have status code "200" the request body will contain objects representing the game
 //      https://docs.battlesnake.com/api/requests/end
+app.post("/end",(req,res) => {
+ res.status(200).json()
+});
 
 const host = "0.0.0.0";
 const port = process.env.PORT || 8000;
