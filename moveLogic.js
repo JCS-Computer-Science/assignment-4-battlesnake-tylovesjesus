@@ -27,19 +27,19 @@ export default function move(gameState){
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
     
-    if (myNeck.y + 1 === 10){
+    if (myHead.y + 1 === 10){
         moveSafety.up = false;
     }
 
-    if (myNeck.y - 1 === 0){
+    if (myHead.y - 1 === 0){
         moveSafety.down = false;
     }
 
-    if (myNeck.x + 1 === 10){
+    if (myHead.x + 1 === 10){
         moveSafety.right = false;
     }
 
-    if (myNeck.x - 1 === 0){
+    if (myHead.x - 1 === 0){
         moveSafety.left = false;
     }
 
