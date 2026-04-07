@@ -27,6 +27,22 @@ export default function move(gameState){
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
     
+    if (myNeck.y + 1 === 10){
+        moveSafety.up = false;
+    }
+
+    if (myNeck.y - 1 === 0){
+        moveSafety.down = false;
+    }
+
+    if (myNeck.x + 1 === 10){
+        moveSafety.right = false;
+    }
+
+    if (myNeck.x - 1 === 0){
+        moveSafety.left = false;
+    }
+
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     // gameState.you contains an object representing your snake, including its coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
