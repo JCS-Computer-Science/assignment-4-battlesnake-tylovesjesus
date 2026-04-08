@@ -46,8 +46,6 @@ export default function move(gameState){
         if(myHead.x === bodyX && myHead.y + 1 === bodyY){moveSafety.up = false;}
     }
     
-    
-    
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
@@ -64,10 +62,58 @@ export default function move(gameState){
     }
     console.log(safeMoves)
     // Choose a random move from the safe moves
-    const nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    let nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
     
+    if(safeMoves.includes('right') && myHead.x <= 4){
+        nextMove = 'right'
+        console.log("prioritizing the middle with right")
+    }
+
+    if(safeMoves.includes('left') && myHead.x >= 6){
+        nextMove = 'left'
+    }
+
+    if(safeMoves.includes('up') && myHead.y <= 4){
+        nextMove = 'up'
+    }
+
+    if(safeMoves.includes('down') && myHead.y >= 6){
+        nextMove = 'down'
+    }
+    
+    if(gameState.you.health < 90){
+        const food = gameState.board.food;
+        let closestFood = null;
+        let closestDistance = 9999;
+
+
+        for (let i = 0; i < food.length; i++) {
+            const f = food[i];
+            const distance = Math.abs(myHead.x - f.x) + Math.abs(myHead.y - f.y);
+
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestFood = f;
+            }
+        }
+
+        if (closestFood) {
+            if (closestFood.x < myHead.x && moveSafety.left) {
+                nextMove = "left";
+            } else if (closestFood.x > myHead.x && moveSafety.right) {
+                nextMove = "right";
+            } else if (closestFood.y < myHead.y && moveSafety.down) {
+                nextMove = "down";
+            } else if (closestFood.y > myHead.y && moveSafety.up) {
+                nextMove = "up";
+            }
+    }
+
+    }
+
     console.log(`MOVE ${gameState.turn}: ${nextMove}`)
     return { move: nextMove };
 }
