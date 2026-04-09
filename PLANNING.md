@@ -1,2 +1,2 @@
-make the snake pathfind towards the middle
-   ex - if snake > 5 go right if snake <5 go left
+
+   add a way to make the no safe moves safer
