@@ -91,7 +91,7 @@ export default function move(gameState){
     }
 
     dontKillYourself();
-    lookForOthers(2);
+    lookForOthers(3);
 
     const safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
     if (safeMoves.length == 0) {
