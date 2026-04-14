@@ -193,13 +193,6 @@ if(gameState.you.health < 60 || gameState.you.length <= 3){
         }
     }else{
         //have the snake prioritize the middle of the board.
-        if(moveSafety.left && myHead.x > 5){
-            nextMove = "left";
-        }
-
-        if(moveSafety.right && myHead.x < 5){
-            nextMove = "right";
-        }
         if(moveSafety.up && myHead.y < 5){
             nextMove = "up";
         }
@@ -207,6 +200,14 @@ if(gameState.you.health < 60 || gameState.you.length <= 3){
         if(moveSafety.down && myHead.y > 5){
             nextMove = "down"
         }
+        if(moveSafety.left && myHead.x > 5){
+            nextMove = "left";
+        }
+
+        if(moveSafety.right && myHead.x < 5){
+            nextMove = "right";
+        }
+        
     }
     
     
