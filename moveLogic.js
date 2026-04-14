@@ -33,7 +33,7 @@ export default function move(gameState){
         if (myHead.x + 1 === 11){moveSafety.right = false;console.log('dodge wall')}
         if (myHead.x - 1 === -1){moveSafety.left = false;console.log('dodge wall')}
 
-        for(let i = 2; i < length; i++){
+        for(let i = 2; i < length -1 ; i++){
             let bodyX = body[i].x
             let bodyY = body[i].y
             if(myHead.x - 1 === bodyX && myHead.y === bodyY){moveSafety.left = false; console.log('dodge self')}
@@ -43,11 +43,11 @@ export default function move(gameState){
         }
     }
 
-    function lookForOthers(checkDistance){ //looks for other snakes within a certian distance of my head
+    function lookForOthersDirect(checkDistance){ //looks for other snakes within a certian distance of my head
         for(let i = 0; i < otherSnakes.length; i++){
             let enemy = otherSnakes[i]
             if(otherSnakes[i].id != myId){
-                for(let j = 0; j < enemy.length; j++){
+                for(let j = 0; j < enemy.length -1 ; j++){
                     let enemyBody = enemy.body[j];
                     //check above
                     if(moveSafety.up){
@@ -88,12 +88,61 @@ export default function move(gameState){
                 }
             }
         }
+        console.log("direct scan called, check distance: " + checkDistance)
+    }
+
+    function lookForOthersArea(checkDistance){ //looks for other snakes within a certian distance of my head
+        for(let i = 0; i < otherSnakes.length; i++){
+            let enemy = otherSnakes[i]
+            if(otherSnakes[i].id != myId){
+                for(let j = 0; j < enemy.length -1; j++){
+                    let enemyBody = enemy.body[j];
+                    //check above
+                    if(moveSafety.up){
+                        if(myHead.y + checkDistance >= enemyBody.y && myHead.y <= enemyBody.y) {
+                            if(myHead.x -1 <= enemyBody.x && myHead.x +1 >= enemyBody.x){
+                                moveSafety.up = false
+                                console.log('dodge! w');
+                            }
+                        }
+                    }
+                    // check down
+                    if(moveSafety.down){
+                        if(myHead.y - checkDistance <= enemyBody.y && myHead.y >= enemyBody.y) {
+                            if(myHead.x -1 <= enemyBody.x && myHead.x +1 >= enemyBody.x){
+                                moveSafety.down = false
+                                console.log('dodge! s');
+                            }
+                        }
+                    }
+                    // check left
+                    if(moveSafety.left){
+                        if(myHead.x - checkDistance <= enemyBody.x && myHead.x >= enemyBody.x) {
+                            if(myHead.y -1 <= enemyBody.y && myHead.y +1 >= enemyBody.y){
+                                moveSafety.left = false
+                                console.log('dodge! a');
+                            }
+                        }
+                    }
+                    // check right
+                    if(moveSafety.right){
+                        if(myHead.x + checkDistance >= enemyBody.x && myHead.x <= enemyBody.x) {
+                            if(myHead.y -1 <= enemyBody.y && myHead.y +1 >= enemyBody.y){
+                                moveSafety.right = false
+                                console.log('dodge! d');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        console.log("area scan called, check distance: " + checkDistance)
     }
 
     dontKillYourself();
-    lookForOthers(3);
+    lookForOthersArea(2);
 
-    const safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
+    let safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
     if (safeMoves.length == 0) {
         console.log(`MOVE ${gameState.turn}: No safe moves detected! going to check again`);
 
@@ -102,9 +151,10 @@ export default function move(gameState){
         moveSafety.left = true;
         moveSafety.right = true;
         
+        lookForOthersDirect(1);
         dontKillYourself();
-        lookForOthers(1);
-
+        safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
+        console.log(moveSafety)
         if(safeMoves.length == 0){
             console.log("no safe moves")
             return { move: "down" };
@@ -113,7 +163,7 @@ export default function move(gameState){
     // Choose a random move from the safe moves
     nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
     
-if(gameState.you.health < 60){
+if(gameState.you.health < 60 || gameState.you.length <= 3){
         const food = gameState.board.food;
         let closestFood = null;
         let closestDistance = 9999;
