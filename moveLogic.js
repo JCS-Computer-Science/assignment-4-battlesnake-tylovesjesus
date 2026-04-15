@@ -36,10 +36,23 @@ export default function move(gameState){
         for(let i = 2; i < length -1 ; i++){
             let bodyX = body[i].x
             let bodyY = body[i].y
-            if(myHead.x - 1 === bodyX && myHead.y === bodyY){moveSafety.left = false; console.log('dodge self')}
-            if(myHead.x + 1 === bodyX && myHead.y === bodyY){moveSafety.right = false; console.log('dodge self')}
-            if(myHead.x === bodyX && myHead.y - 1 === bodyY){moveSafety.down = false; console.log('dodge self')}
-            if(myHead.x === bodyX && myHead.y + 1 === bodyY){moveSafety.up = false; console.log('dodge self')}
+
+            if(myHead.x - 1 === bodyX && myHead.y === bodyY){
+                moveSafety.left = false; 
+                console.log('dodge self')
+            }
+            if(myHead.x + 1 === bodyX && myHead.y === bodyY){
+                moveSafety.right = false; 
+                console.log('dodge self')
+            }
+            if(myHead.x === bodyX && myHead.y - 1 === bodyY){
+                moveSafety.down = false; 
+                console.log('dodge self')
+            }
+            if(myHead.x === bodyX && myHead.y + 1 === bodyY)
+                {moveSafety.up = false; 
+                    console.log('dodge self')
+            }
         }
     }
 
@@ -140,7 +153,7 @@ export default function move(gameState){
     }
 
     dontKillYourself();
-    lookForOthersArea(2);
+    lookForOthersArea(3);
 
     let safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
     if (safeMoves.length == 0) {
@@ -150,7 +163,6 @@ export default function move(gameState){
         moveSafety.down = true;
         moveSafety.left = true;
         moveSafety.right = true;
-        
         lookForOthersDirect(1);
         dontKillYourself();
         safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
@@ -163,7 +175,7 @@ export default function move(gameState){
     // Choose a random move from the safe moves
     nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
     
-if(gameState.you.health < 60 || gameState.you.length <= 3){
+if(gameState.you.health < 30 || gameState.you.length <= 3){
         const food = gameState.board.food;
         let closestFood = null;
         let closestDistance = 9999;
