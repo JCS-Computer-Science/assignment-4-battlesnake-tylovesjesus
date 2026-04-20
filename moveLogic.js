@@ -153,7 +153,7 @@ export default function move(gameState){
     }
 
     dontKillYourself();
-    lookForOthersArea(3);
+    lookForOthersArea(2);
 
     let safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
     if (safeMoves.length == 0) {
@@ -175,7 +175,7 @@ export default function move(gameState){
     // Choose a random move from the safe moves
     nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
     
-if(gameState.you.health < 30 || gameState.you.length <= 3){
+    if(gameState.you.health < 40 || gameState.you.length <= 3){
         const food = gameState.board.food;
         let closestFood = null;
         let closestDistance = 9999;
